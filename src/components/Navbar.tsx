@@ -1,17 +1,31 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Button from './Button'
+import { signInWithPopup, signOut } from 'firebase/auth'
+import { auth, provider } from '../config/firebase'
 
 function Navbar() {
-
     const [isVisible, setIsVisible] = useState(false)
-
-    const dropDown = () => {
-        setIsVisible(!isVisible)
+  
+    const signOutOnClick = () => {
+      signOut(auth)
+      location.reload();
     }
-
-    const clicked = () => { 
-        setIsVisible(false)
+  
+    const signInOnClick = async () => {
+      // const response = await signInWithPopup(auth, Providers.google);
+      const response = await signInWithPopup(auth, provider);
+      if ( response.user ) {
+          location.reload();
+      }
+    }
+  
+    const dropDown = () => {
+      setIsVisible(!isVisible)
+    }
+  
+    const clicked = () => {
+      setIsVisible(false)
     }
 
 
@@ -56,6 +70,27 @@ function Navbar() {
                         </div>
 
                     </Button>
+                    {
+                        !auth.currentUser ?
+
+                        <Button className='p-3 m-5  justify-center'>
+                            <div>
+                                <Link to="/" onClick={ () => { signInOnClick()}} className="flex place-items-center mt-4
+                                 lg:inline-block lg:mt-0 text-white hover:text-sky-500">
+                                    Login
+                                </Link>
+                            </div>
+                        </Button>
+                        :
+                        <Button className='p-3 m-5 justify-center'>
+                            <div>
+                                <Link to="/" onClick={ () => { signOutOnClick()}} className="flex place-items-center mt-4
+                                 lg:inline-block lg:mt-0 text-white hover:text-sky-500">
+                                    Sign Out
+                                </Link>
+                            </div>
+                        </Button>
+                    }
                 </div>
             </div>
             ) : (
