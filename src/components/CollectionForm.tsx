@@ -8,11 +8,11 @@ import { chooseMake, chooseModel, chooseYear, chooseColor } from "../redux/slice
 
 // interfaces
 
-interface ContactFormProps {
+interface CarFormProps {
   id?: string[]
 }
 
-const ContactForm = (props:ContactFormProps) => {
+const CollectionForm = (props:CarFormProps) => {
   const { register, handleSubmit } = useForm({})
   const dispatch = useDispatch();
   const store = useStore();
@@ -73,4 +73,4 @@ const ContactForm = (props:ContactFormProps) => {
   )
 }
 
-export default ContactForm
+export default CollectionForm
